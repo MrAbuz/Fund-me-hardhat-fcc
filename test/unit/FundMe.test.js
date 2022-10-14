@@ -16,7 +16,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
 //So now our unit tests only run on development chains, and our staging tests only run on testnets
 !developmentChains.includes(network.name)
     ? describe.skip
-    : describe("FundMe", async function () {
+    : describe("FundMe", function () {
           let fundMe
           let deployer
           let mockV3Aggregator
@@ -44,14 +44,14 @@ const { developmentChains } = require("../../helper-hardhat-config")
               )
           })
 
-          describe("constructor", async function () {
+          describe("constructor", function () {
               it("sets the aggregator addresses correctly", async function () {
                   const response = await fundMe.getPriceFeed() //we wanna make sure this getPriceFeed() is gonna be the same as our mockV3Aggregator (since we'll be running our tests locally its the mockV3Aggregator).
                   assert.equal(response, mockV3Aggregator.address) //não percebo ao certo porque é que tem que ter o ".address" mas ok! because we are just comparing if the address is well inputed, and so the same?
               })
           })
 
-          describe("fund", async function () {
+          describe("fund", function () {
               it("Fails if you don't send enough ETH", async function () {
                   await expect(fundMe.fund()).to.be.revertedWith(
                       "You need to spend more ETH!"
@@ -81,7 +81,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
               })
           })
 
-          describe("withdraw", async function () {
+          describe("withdraw", function () {
               beforeEach(async function () {
                   await fundMe.fund({ value: sendValue }) //makes sense to do in beforeEach because every it() will need us to fund the contract before
               })
